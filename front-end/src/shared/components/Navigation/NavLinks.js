@@ -14,6 +14,9 @@ const NavLinks = props => {
           <li>
               <NavLink exact to='/places/new'>Add Place</NavLink>
           </li>
+          <li>
+              <NavLink exact to='/auth'>Authentication</NavLink>
+          </li>
        </ul>
     )
 }
