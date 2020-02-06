@@ -65,7 +65,7 @@ const createPlace = async (req, res, next) => {
         description,
         location: coordinates,
         address,
-        image: 'https://historicalhistrionics.files.wordpress.com/2012/01/the-tudors-anne-boleyn.jpg',
+        image: req.file.path,
         creator
    })
 
