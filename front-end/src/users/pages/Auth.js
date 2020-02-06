@@ -77,7 +77,7 @@ const Auth = () => {
             'Content-Type': 'application/json'
           }
         );
-        auth.login(resData.user.id);
+        auth.login(resData.userId, resData.token);
       } catch (err) {}
     } else {
       try {
@@ -92,7 +92,7 @@ const Auth = () => {
            formData
         );
 
-        auth.login(resData.user.id);
+        auth.login(resData.userId, resData.token);
       } catch (err) {}
     }
   };
@@ -147,3 +147,5 @@ const Auth = () => {
 };
 
 export default Auth;
+
+
