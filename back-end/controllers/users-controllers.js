@@ -38,7 +38,7 @@ const signup = async(req, res, next) => {
     const createdUser = new User({
         name,
         email,
-        image: 'https://resize.hswstatic.com/w_907/gif/lion.jpg',
+        image: req.file.path,
         password,
         places: []
     });
