@@ -4,6 +4,7 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH,VALIDATOR_REQUIRE} from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hook';
 import {useHttpClient} from '../../shared/hooks/http-hook';
@@ -34,7 +35,8 @@ const Auth = () => {
       setFormData(
         {
           ...formState.inputs,
-          name: undefined
+          name: undefined,
+          image: undefined
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -44,6 +46,10 @@ const Auth = () => {
           ...formState.inputs,
           name: {
             value: '',
+            isValid: false
+          },
+          image: {
+            value: null,
             isValid: false
           }
         },
@@ -56,9 +62,11 @@ const Auth = () => {
   const authSubmitHandler = async event => {
     event.preventDefault();
 
+    console.log(formState.inputs)
+
     if (isLoginMode) {
       try {
-        await sendRequest(
+        const resData = await sendRequest(
           'http://localhost:5000/api/users/login',
           'POST',
           JSON.stringify({
@@ -69,11 +77,11 @@ const Auth = () => {
             'Content-Type': 'application/json'
           }
         );
-        auth.login();
+        auth.login(resData.user.id);
       } catch (err) {}
     } else {
       try {
-        await sendRequest(
+        const resData = await sendRequest(
           'http://localhost:5000/api/users/signup',
           'POST',
           JSON.stringify({
@@ -86,7 +94,7 @@ const Auth = () => {
           }
         );
 
-        auth.login();
+        auth.login(resData.user.id);
       } catch (err) {}
     }
   };
@@ -109,6 +117,7 @@ const Auth = () => {
             onInput={inputHandler}
           />
         )}
+        {!isLoginMode && <ImageUpload center id='image' onInput={inputHandler}/>}
         <Input
           element="input"
           id="email"
@@ -123,8 +132,8 @@ const Auth = () => {
           id="password"
           type="password"
           label="Password"
-          validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText="Please enter a valid password, at least 5 characters."
+          validators={[VALIDATOR_MINLENGTH(6)]}
+          errorText="Please enter a valid password, at least 6 characters."
           onInput={inputHandler}
         />
         <Button type="submit" disabled={!formState.isValid}>
