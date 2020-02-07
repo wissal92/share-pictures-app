@@ -106,7 +106,7 @@ const login = async(req, res, next) => {
     let token;
     try{
       token = jwt.sign({userId: existingUser.id, email: existingUser.email}, 
-              'dont_share_this_secret', {expiresIn: '1h'})
+              process.env.JWT_KEY, {expiresIn: '1h'})
     }catch (err) {
       const error = new HttpError('signin up has failed :(', 500)
       return next(error)
