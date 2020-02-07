@@ -11,7 +11,7 @@ const User = () =>{
    useEffect(() => {
        const fetchUsers = async () => {
            try{
-                const resData = await sendRequest('http://localhost:5000/api/users/');
+                const resData = await sendRequest(process.env.REACT_APP_BACKEND_URL + '/users');
                 setLoadedUsers(resData.users);
 
            } catch(err) {}
